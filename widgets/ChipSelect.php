@@ -5,6 +5,7 @@ namespace computy\chipselect\widgets;
 use computy\chipselect\ChipSelectAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 
@@ -45,7 +46,7 @@ class ChipSelect extends Widget
     }
 
     /**
-     * Render the ChipSelect widget.
+     * Render the ChipSelect widget and registers the relevant JS.
      * @return void
      * @throws InvalidConfigException
      */
@@ -53,7 +54,8 @@ class ChipSelect extends Widget
     {
         $this->setEmptyValues();
 
-        echo $this->render('//shared/chip-select/_chip_select', ['widget' => $this]);
+        $this->renderChips();
+
         $id = $this->containerOptions['id'];
         $options = [];
         if (!empty($this->jsOnChange)) {
@@ -68,6 +70,57 @@ class ChipSelect extends Widget
 initChipSelect($('#${id}'), ${options});
 JS
         );
+    }
+
+    /**
+     * Render the widget.
+     * @return void
+     */
+    protected function renderChips() {
+        $data = $this->data;
+        $optionsUnselected = $this->options;
+        $optionsUnselected['class'] .= ' chip-unselected';
+        $optionsSelected = $this->options;
+        $optionsSelected['class'] .= ' chip-selected';
+        echo Html::beginTag('div', $this->containerOptions);
+
+        echo Html::beginTag('div', ['class' => 'unselected-container']);
+        foreach ($data as $value => $display) {
+            $visible = !in_array($value, $this->value, true);
+            $options = $optionsUnselected;
+            if (!$visible) {
+                $style = $options['style'] ?? '';
+                $style = 'display: none; ' . $style;
+                $options['style'] = $style;
+            }
+            $options['data-value'] = $value;
+            $display .= ' <i class="fas fa-fw fa-plus"></i>';
+            echo Html::tag('div', $display, $options);
+        }
+        echo Html::endTag('div');
+
+        echo Html::beginTag('div', ['class' => 'selected-container']);
+        foreach ($data as $value => $display) {
+            $visible = in_array($value, $this->value);
+            $options = $optionsSelected;
+            $inputOptions = $this->inputOptions;
+            if (!$visible) {
+                $style = $options['style'] ?? '';
+                $style = 'display: none; ' . $style;
+                $options['style'] = $style;
+                $inputOptions['disabled'] = true;
+            }
+            $options['data-value'] = $value;
+            $display .= ' <i class="fas fa-fw fa-minus"></i>';
+            echo Html::tag(
+                'div',
+                $display . Html::hiddenInput($this->name . '[]', $value, $inputOptions),
+                $options
+            );
+        }
+        echo Html::endTag('div');
+
+        echo Html::endTag('div');
     }
 
     /**
