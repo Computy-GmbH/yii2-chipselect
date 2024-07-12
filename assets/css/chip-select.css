@@ -1,0 +1,29 @@
+.cpty-select-chip {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 4px 10px;
+    margin: 0 5px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.cpty-select-chip:hover {
+    background: #5a6268; /* bootstrap "secondary" colour */
+    border-color: #545b62; /* bootstrap "secondary" colour */
+    color: white;
+}
+
+.cpty-select-chip.chip-selected {
+    background: #5191c1; /* bootstrap "primary" colour */
+    color: white;
+    border-color: #71b1e1; /* bootstrap "primary" colour */
+}
+
+.cpty-select-chip.chip-selected:hover {
+    background: #0069d9; /* bootstrap "primary" colour */
+    border-color: #0062cc; /* bootstrap "primary" colour */
+}
+
+.cpty-chip-select-container .selected-container {
+    margin-top: 10px;
+}

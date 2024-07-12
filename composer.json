@@ -1,0 +1,39 @@
+{
+    "name": "computy/yii2-chipselect",
+    "description": "Chip Select widget for Yii2",
+    "type": "yii2-widget",
+    "keywords": [
+        "yii2",
+        "yii2-select",
+        "yii2-chip-select"
+    ],
+    "authors": [
+        {
+            "name": "Computy GmbH & Co. KG",
+            "homepage": "https://computy.de",
+            "email": "meldung@computy.de"
+        }
+    ],
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=8.1",
+        "yiisoft/yii2": "~2.0.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "computy\\chipselect\\": ""
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    },
+    "minimum-stability": "dev"
+}
